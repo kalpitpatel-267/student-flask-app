@@ -2,6 +2,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER = 'C:\\Users\\Kalpit\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -12,16 +16,18 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t student-flask-app .'
+                bat '"%DOCKER%" version'
+                bat '"%DOCKER%" build -t student-flask-app .'
             }
         }
 
         stage('Deploy Application') {
             steps {
-                bat 'docker rm -f student-app || exit /b 0'
-                bat 'docker run -d -p 5000:5000 --name student-app student-flask-app'
+                bat '"%DOCKER%" rm -f student-app'
+                bat '"%DOCKER%" run -d -p 5000:5000 --name student-app student-flask-app'
             }
         }
     }
 }
+
 
