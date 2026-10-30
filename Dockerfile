@@ -1,4 +1,4 @@
-#repo update 
+#repo updated
 FROM python:3.11
 WORKDIR /app
 COPY requirements.txt .
